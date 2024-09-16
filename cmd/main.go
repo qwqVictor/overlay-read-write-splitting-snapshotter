@@ -11,8 +11,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	snapshotsapi "github.com/containerd/containerd/api/services/snapshots/v1"
-	"github.com/containerd/containerd/contrib/snapshotservice"
-	"github.com/containerd/containerd/snapshots/overlay"
+	"github.com/containerd/containerd/v2/contrib/snapshotservice"
 	"github.com/qwqVictor/overlay-read-write-splitting-snapshotter/snapshotter"
 	"google.golang.org/grpc"
 )
@@ -42,12 +41,12 @@ func main() {
 		Action: func(ctx *cli.Context) error {
 			// 创建 snapshotter
 			root := ctx.String("root-dir")
-			sOpts := []overlay.Opt{}
+			sOpts := []snapshotter.Opt{}
 			if ctx.Bool("async-remove") {
-				sOpts = append(sOpts, overlay.AsynchronousRemove)
+				sOpts = append(sOpts, snapshotter.AsynchronousRemove)
 			}
 			if ctx.Bool("upperdir-label") {
-				sOpts = append(sOpts, overlay.WithUpperdirLabel)
+				sOpts = append(sOpts, snapshotter.WithUpperdirLabel)
 			}
 			sn, err := snapshotter.NewSnapshotter(root, sOpts...)
 			if err != nil {
