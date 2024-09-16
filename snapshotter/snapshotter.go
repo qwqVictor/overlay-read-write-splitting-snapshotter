@@ -719,6 +719,7 @@ func supportsIndex() bool {
 	return false
 }
 
+// evil hack! 除解压镜像外 containerd 传入的 key 不会在去除命名空间后以 extract- 开头，除非 namespace 包含 '/'，但这不可能
 func isExtracting(key string) bool {
 	return strings.HasPrefix(strings.Split(key, "/")[2], "extract-")
 }
